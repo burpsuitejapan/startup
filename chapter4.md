@@ -11,13 +11,11 @@ Proxyタブを構成する各タブに関する簡単な概要の説明
 - HTTP history
 - WebSockets history
 - Options
-
-### 4.1.3 Proxy Listenersの確認
-スタートアップ時の最低限の確認として、Optionタブの「Proxy Listeners」の設定について説明  
+ 
 ## 4.2 Burp Suiteによる通信のキャプチャ
 ### 4.2.1 通信をキャプチャしてみよう！
 1. ブラウザでアクセスする(※この時以下二点の設定状況を確認)
-  - ブラウザ側で、3.4で説明したProxy設定にて通信先に、「Proxy Listeners」のポート指定していること
+  - ブラウザ側で、3章で説明したProxy設定がされていること
   - 「Intercept」タブが「Intercept is off」と設定されていること
 2. 「HTTP hisotry」タブで通信内容を閲覧  
   「HTTP hisotry」タブの画面構成及び見方について説明  
@@ -51,7 +49,7 @@ Proxyタブを構成する各タブに関する簡単な概要の説明
 
 ### 4.2.2 値を書き換えて送信してみよう！
 1. ブラウザでアクセスする(※この時以下二点の設定状況を確認)
-  - ブラウザ側で、3.4で説明したProxy設定にて通信先に、「Proxy Listeners」のポート指定していること
+  - ブラウザ側で、3章で説明したProxy設定がされていること
   - 「Intercept」タブが「Intercept is on」と設定されていること
 2. 「Intercept」タブで値を変更  
 「Intercept」タブの画面構成及び見方について説明
