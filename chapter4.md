@@ -1,12 +1,72 @@
 # 4 診断方法について
+## 4.1 Proxy機能
+### 4.2.1 Proxyを利用した通信キャプチャ
+一般的なクライアントProxytoolに関する説明  
+MITMやっているようなお決まりの絵と内容を説明をするイメージ  
+見るだけじゃなくて変更もできるよ。SSLもイケますよ。みたいなことを書く。
 
-## 4.1 画面構成
+### 4.1.1 Proxyタブの構成
+Proxyタブを構成する各タブに関する簡単な概要の説明  
+- Intercept
+- HTTP history
+- WebSockets history
+- Options
 
-Proxyタブがどういう構成なのか。
-
+### 4.1.2 Proxy Listenersの確認
+スタートアップ時の最低限の確認として、Optionタブの「Proxy Listeners」の設定について説明  
 ## 4.2 Burp Suiteによる通信のキャプチャ
+### 4.2.2 通信をキャプチャしてみよう！
+1. ブラウザでアクセスする(※この時以下二点の設定状況を確認)
+  - ブラウザ側で、3.4で説明したProxy設定にて通信先に、「Proxy Listeners」のポート指定していること
+  - 「Intercept」タブが「Intercept is off」と設定されていること
+2. 「HTTP hisotry」タブで通信内容を閲覧  
+  「HTTP hisotry」タブの画面構成及び見方について説明  
+  上部フィールドについての説明(以下の情報が表示されている)
+    - Host
+    - Method
+    - URL
+    - Params
+    - Edited
+    - Status
+    - Length
+    - MIME type
+    - Extension
+    - title
+    - Comment
+    - SSL
+    - IP
+    - Cookies
+    - Time
+    - Listener port
 
-インターセプト設定。
+  選択すると下部タブにRequest＆Pesponseデータの詳細を閲覧できる  
+  下部タブの詳細について説明(Requestタブと Pesponseタブ)  
+  以下タブにて項目ごとにデータを表示可能
+    - Raw
+    - Params
+    - Headers
+    - Hex
+
+  Filetr機能の説明
+
+### 4.2.1 値を書き換えて送信してみよう！
+1. ブラウザでアクセスする(※この時以下二点の設定状況を確認)
+  - ブラウザ側で、3.4で説明したProxy設定にて通信先に、「Proxy Listeners」のポート指定していること
+  - 「Intercept」タブが「Intercept is on」と設定されていること
+2. 「Intercept」タブで値を変更  
+「Intercept」タブの画面構成及び見方について説明
+  - 上部ボタン
+    - Forward
+    - Drop
+    - Intercept on or off
+    - Action
+  - 下部タブ
+    - Raw
+    - Params
+    - Headers
+    - Hex
+3. 「HTTP hisotry」タブで結果を閲覧  
+「Edited request」のタブに関する説明
 
 ## 4.3 その他
 
@@ -37,4 +97,3 @@ Loggingについて。Free edition前提なので。
 ### 4.3.7 Extender
 
 Extenderがどういうものか。どういうことができるのか。
-
