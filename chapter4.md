@@ -36,5 +36,7 @@ Loggingについて。Free edition前提なので。
 
 ### 4.3.7 Extender
 
-Extenderがどういうものか。どういうことができるのか。
-
+- Extensionの取り込み方について記載する。
+- BApp Storeの説明を記載する。
+- Jython、JRubyの設定について記載する。
+- APIについて記載する(具体的な内容は触れず、javadocがあるよ程度)
