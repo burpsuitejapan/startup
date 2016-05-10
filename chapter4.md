@@ -1,12 +1,12 @@
-# 4 診断方法について
+﻿# 4 診断方法について
 ## 4.1 Proxy機能
 ### 4.1.1 Proxyを利用した通信キャプチャ
-一般的なクライアントProxytoolに関する説明  
-MITMやっているようなお決まりの絵と内容を説明をするイメージ  
+一般的なクライアントProxytoolに関する説明
+MITMやっているようなお決まりの絵と内容を説明をするイメージ
 見るだけじゃなくて変更もできるよ。SSLもイケますよ。みたいなことを書く。
 
 ### 4.1.2 Proxyタブの構成
-Proxyタブを構成する各タブに関する簡単な概要の説明  
+Proxyタブを構成する各タブに関する簡単な概要の説明
 - Intercept
 - HTTP history
 - WebSockets history
@@ -18,7 +18,7 @@ Proxyタブを構成する各タブに関する簡単な概要の説明
   - ブラウザ側で、3章で説明したProxy設定がされていること
   - 「Intercept」タブが「Intercept is off」と設定されていること
 2. 「HTTP hisotry」タブで通信内容を閲覧  
-  「HTTP hisotry」タブの画面構成及び見方について説明  
+  「HTTP hisotry」タブの画面構成及び見方について説明
   上部フィールドについての説明(以下の情報が表示されている)
     - Host
     - Method
@@ -37,8 +37,8 @@ Proxyタブを構成する各タブに関する簡単な概要の説明
     - Time
     - Listener port
 
-  選択すると下部タブにRequest＆Pesponseデータの詳細を閲覧できる  
-  下部タブの詳細について説明(Requestタブと Pesponseタブ)  
+  選択すると下部タブにRequest＆Pesponseデータの詳細を閲覧できる
+  下部タブの詳細について説明(Requestタブと Pesponseタブ)
   以下タブにて項目ごとにデータを表示可能
     - Raw
     - Params
@@ -97,16 +97,52 @@ requestだけじゃなくてresponseのインターセプトについても補�
 
 ### 4.3.4 ログ保存設定
 
-Loggingについて。Free edition前提なので。
+1.[Options]-[Misc]-Logging]の設定
+ALLとToolsの使い分け、RequestとResponse
+
+2.ログの見方
+
+3.[参考]Logger++の紹介
 
 ### 4.3.5 アップストリームProxy設定
 
-なぜアップストリームを使うのかも含めて。
+1.背景
+- 社内Proxyの図
+  - Proxy Host
+  - Proxy Port
+
+2.設定
+  - 具体的な設定値例(図)
+    - Desitination Hostに*(ワイルドカード)入れる話は必須
+    - 認証方式、ID/PWD
+
+3.Burp特有の問題と対策
+  - 名前解決遅くなる問題 
+  - Connection timeout待ちで遅い問題
 
 ### 4.3.6 Intruder
 
-一番ベーシックな使い方。結果の見方も。Grep matchいれたい。
+1.自動化の必要性
+
+2.使い方
+  - Instuderへの渡し方
+    - History右クリックからのsend IntruderあるいはCtrl+i
+  - Positions設定
+    - 自動設定
+    - 手動設定(微調整)
+  - Payloads
+    - Payload Type 
+    - Payload Options(Simple List)
+  - 実行結果と見方
+
+3.便利な使い方
+  - Grep Match
+  - Automatic Payload Position
 
 ### 4.3.7 Extender
 
-Extenderがどういうものか。どういうことができるのか。
+- Extensionの取り込み方について記載する。
+- BApp Storeの説明を記載する。
+- Jython、JRubyの設定について記載する。
+- APIについて記載する(具体的な内容は触れず、javadocがあるよ程度)
+
