@@ -17,7 +17,7 @@ Proxyタブを構成する各タブに関する簡単な概要の説明
 1. ブラウザでアクセスする(※この時以下二点の設定状況を確認)
   - ブラウザ側で、3章で説明したProxy設定がされていること
   - 「Intercept」タブが「Intercept is off」と設定されていること
-2. 「HTTP hisotry」タブで通信内容を閲覧  
+2. 「HTTP hisotry」タブで通信内容を閲覧
   「HTTP hisotry」タブの画面構成及び見方について説明
   上部フィールドについての説明(以下の情報が表示されている)
     - Host
@@ -51,7 +51,7 @@ Proxyタブを構成する各タブに関する簡単な概要の説明
 1. ブラウザでアクセスする(※この時以下二点の設定状況を確認)
   - ブラウザ側で、3章で説明したProxy設定がされていること
   - 「Intercept」タブが「Intercept is on」と設定されていること
-2. 「Intercept」タブで値を変更  
+2. 「Intercept」タブで値を変更
 「Intercept」タブの画面構成及び見方について説明
   - 上部ボタン
     - Forward
@@ -63,8 +63,8 @@ Proxyタブを構成する各タブに関する簡単な概要の説明
     - Params
     - Headers
     - Hex
-3. 「HTTP hisotry」タブで結果を閲覧  
-「Edited request」のタブに関する説明    
+3. 「HTTP hisotry」タブで結果を閲覧
+「Edited request」のタブに関する説明
 requestだけじゃなくてresponseのインターセプトについても補足する
 
 ## 4.3 その他
@@ -224,7 +224,111 @@ ALLとToolsの使い分け、RequestとResponse
 
 ### 4.3.7 Extender
 
-- Extensionの取り込み方について記載する。
-- BApp Storeの説明を記載する。
-- Jython、JRubyの設定について記載する。
-- APIについて記載する(具体的な内容は触れず、javadocがあるよ程度)
+Burp Suiteは、ユーザ自身、または第三者が独自に開発した拡張機能を取り込み、様々な機能の拡張ができます。
+例えば、HTTPリクエスト・レスポンスの修正、UIのカスタマイズ、外部ツールとの連携、Intruderの独自ペイロードの作成、Scannerのシグネチャ追加（Professional版用）などです。
+これらの拡張機能の取り込みや管理をするためのツールが、Extenderです。
+
+Burp Suiteで拡張機能を利用するには、２つの方法があります。拡張機能のファイルを用意し登録する方法と、BApp Storeを利用する方法です。
+まずは、BApp Storeを利用する方法を説明します。
+
+#### BApp Storeを利用する
+[BApp Store](https://portswigger.net/bappstore/)は、Burp Suiteのユーザが開発した拡張機能を登録し公開できるサービスです。
+2016/06時点で、約80個の拡張機能が公開されています。
+
+BApp Storeで公開されている拡張機能は、Burp SuiteのUI上から簡単に取り込めるようになっています。
+「Extender」の「BApp Store」タブを開きます。
+
+![Burp SuiteのBApp Store画面]()
+
+この画面で、拡張機能名と詳細情報が確認できます。
+一部の拡張機能は、Professional版でのみ利用可能で、Detail列にその旨記載があります。
+
+それでは、「Logger++」という拡張機能をインストールしてみましょう。
+この拡張機能は、Burp Suiteの様々なツールが送受信したHTTPメッセージを、ProxyのHTTP historyのようなインタフェースで表示できる拡張機能です。
+
+左側の一覧表から、「Logger++」を選択します。すると右側のペインにLogger++の詳細情報が表示されます。
+一番下の「Install」ボタンをクリックしてください。インストールが進み、ボタンが「Reinstall」に変われば、インストールは完了です。
+
+拡張機能によってBurp Suiteのどこを拡張するかは様々です。
+カスタムタブの追加、コンテキストメニューへのアイテム追加、メッセージエディターへのタブ追加など、UIに反映される箇所は異なり、またUI上では変化が分からないものもありますので、拡張機能の詳細情報で確認してください。
+Logger++の場合は、カスタムタブが追加されています。
+Logger++の詳細には触れませんので、様々なサイトにアクセスしてどのようなログが取れるか確認してください。
+
+![Logger++画面]()
+
+#### 拡張機能ファイルを登録する
+
+拡張機能は、BApp Store以外からも入手できます。自身で拡張機能を開発した場合も、この手順で取り込むことになります。
+
+今回は「OgaCopy」という拡張機能をインストールしてみましょう。
+Burp Suiteはマルチバイト文字の取扱が不得意で、メッセージエディターなどで日本語を含むテキストをコピーしてペーストすると、文字化けをしてしまいます。
+OgaCopyはこれを補正して、文字化けせずコピーができる拡張機能です。
+
+OgaCopy（[http://www.geocities.jp/burplogviewer/burpextender.html](http://www.geocities.jp/burplogviewer/burpextender.html)）
+
+まず上記のサイトにアクセスし、JARファイルをダウンロードします（2016/06時点で最新はv1.1）。保存場所は任意の場所でかまいません。
+
+![OgaCopyサイトのスクショ]()
+
+Burp SuiteのUIで「Extender」の「Extensions」タブを開きます。
+上部のペインには、インストールされている拡張機能が表示されています。
+前述の手順でBApp StoreからLogger++をインストールしているばあいは、ここに表示されているはずです。
+
+![Extender Extensions]()
+
+左側から「Add」ボタンをクリックすると、「Load Burp Extension」ダイアログボックスが開きます。
+
+![Load Burp Extensionダイアログボックス]()
+
+Extension typeに「Java」が選択されていることを確認し、「Select file...」ボタンをクリックします。
+ここで、先程ダウンロードしておいた、OgaCopy_v1.1.jarを選択します。
+
+「Next」ボタンをクリックすると、拡張機能が読み込まれます。
+「Output」と「Errors」というタブがあり。ここには拡張機能が出力するログが表示されます。
+OgaCopy の場合は、Outputタブに、"OgaCopy v1.1 Load OK!"と表示されているはずです。
+右下の「Close」ボタンをクリックして、このダイアログボックスを閉じてしまってかまいません。
+すべてうまくいっていれば、拡張機能一覧テーブルにOgaCopy v1.1 が追加され、Loaded列にチェックボックスがついているはずです。
+
+OgaCopyは、コンテキストメニューに項目が追加されるタイプの拡張機能です。
+Proxyの履歴などで日本語を含むレスポンスを探してメッセージエディターで開いてください。
+コンテキストメニューを表示させると、OgaCopyの項目が３つ追加されています。
+今まで通りテキストを選択して「Ctrl+C」でコピーした場合と、OgaCopyでコピーした場合と、ペーストした結果を見比べてみてください。
+
+#### 拡張機能の管理
+
+「Extender」の「Extensions」タブで、インストールされている拡張機能の管理ができます。
+
+拡張機能を無効化するには、「Loaded」列のチェックボタンをオフにしてください。
+無効化するとBurp Suiteを再起動しても自動的に有効になりませんので、再度使いたい場合はチェックボックスをオンにしてください。
+
+拡張機能をBurp Suiteから完全に削除するには、削除する拡張機能を選択して、左側から「Remove」ボタンをクリックしてください。
+
+#### PythonやRubyで開発された拡張機能
+
+拡張機能は、JavaだけではなくPythonやRubyで開発もできます。
+BApp Storeで公開されている拡張機能にも、PythonやRubyで開発されたものがあります。
+これらの拡張機能を利用するには、Jython・JRubyをインストールしておく必要があります。
+
+* Python
+
+[Jythonダウンロードサイト](http://www.jython.org/downloads.html) から、Standalone Jar（2016/06時点で最新は2.7.0）をダウンロードします。
+
+Burp SuiteのUIで「Extender」の「Options」タブを開きます。
+「Python Environment」セクションの「Location of Jython standalone JAR file:」で、ダウンロードしたjython-standalone-2.7.0.jarを選択します。
+
+* Ruby
+
+[JRubyダウンロードサイト](http://jruby.org/download) から、JRuby Complete .jar（2016/06時点で最新は9.1.2.0）をダウンロードします。
+
+Burp SuiteのUIで「Extender」の「Options」タブを開きます。
+「Ruby Environment」セクションの「Location of JRuby JAR file:」で、ダウンロードしたjruby-complete-9.1.2.0.jarを選択します。
+
+#### 拡張機能の開発
+
+Burp Suiteや様々な拡張機能を使い込んでいくと、自分でも拡張機能を作ってみたくなることでしょう。
+「Extender」の「APIs」では、拡張機能の開発で使うJava インタフェースのソースコードが確認できます。
+また、以下のドキュメントが参考になりますので、拡張機能を開発する際は参照してください。
+
+- Burp Extender [https://portswigger.net/burp/extender/](https://portswigger.net/burp/extender/)
+- Burp API Javadoc [https://portswigger.net/burp/extender/api/](https://portswigger.net/burp/extender/api/)
+
