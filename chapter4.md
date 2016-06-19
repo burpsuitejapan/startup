@@ -14,12 +14,16 @@ Proxyタブを構成する各タブに関する簡単な概要の説明
 
 ## 4.2 Burp Suiteによる通信のキャプチャ
 ### 4.2.1 通信をキャプチャしてみよう！
-1. ブラウザでアクセスする(※この時以下二点の設定状況を確認)
-  - ブラウザ側で、3章で説明したProxy設定がされていること
-  - 「Intercept」タブが「Intercept is off」と設定されていること
-2. 「HTTP hisotry」タブで通信内容を閲覧
-  「HTTP hisotry」タブの画面構成及び見方について説明
-  上部フィールドについての説明(以下の情報が表示されている)
+Burp Suiteでブラウザの通信をキャプチャするためにブラウザで行ったProxy設定にあったIPアドレスおよびポートを設定する必要があります。Burp SuiteでのProxy設定は、「Proxy」-「Options」-「Proxy Listeners」で通信を受け付ける待ち受け用のIPアドレスおよびポートを設定します。デフォルトでは127.0.0.1の8080番で待ち受けるようになっています。
+
+※Proxy Listenersの画像
+
+Burp Suiteのデフォルトはブラウザからのリクエストはインターセプト(止める)する設定になっています。デフォルトで「Proxy」-「Intercept」で「Intercept is On」になっています。ボタンをクリックすると「Intercept is Off」になり、インターセプトされないようになります。
+
+リクエストをインターセプトした場合、サーバにはリクエストが送信されていないため、レスポンスは表示されません。その場合、「Forward」をクリックするか、「Intercept is On」をクリックして「Intercept is Off」にするとインターセプトされていたリクエストがサーバに送信されます。
+
+「Proxy」-「HTTP history」には、Burp ProxyがProxyしたHTTPログが一覧で表示されます。以下の項目が表示されます。
+
     - Host
     - Method
     - URL
@@ -37,35 +41,46 @@ Proxyタブを構成する各タブに関する簡単な概要の説明
     - Time
     - Listener port
 
-  選択すると下部タブにRequest＆Pesponseデータの詳細を閲覧できる
-  下部タブの詳細について説明(Requestタブと Pesponseタブ)
-  以下タブにて項目ごとにデータを表示可能
+また、各HTTPログを選択すると下部に選択したHTTPログのリクエストおよびレスポンスが表示されます。RequestタブおよびResponseタブにそれぞれに以下のタブがあり、表示形式を変更して内容を確認することができます。※はResponseタブでのみ表示されます。
+
     - Raw
     - Params
     - Headers
     - Hex
+    - HTML ※
+    - Render ※
 
-  Filetr機能の説明
+「HTTP history」の一覧の各カラムをクリックすると降順または昇順での並び替えができます。例えば「Params」をクリックするとHTTPログの中でパラメータが存在するHTTPログが上部に表示されます。
+FilterをクリックするとHTTPログを設定する条件に応じてフィルタすることができます。正規表現でのフィルタ機能だけProfessinal Editioinのみ利用可能です。
+
+- Filter by request type
+スコープ内のログのみ表示やパラメータが存在するリクエストのみ表示するなど指定することができます。
+
+- Filter by MIME type
+HTMLやCSS、ScriptなどのMIMEタイプを指定することができます。
+
+- Filte by status code
+レスポンスのステータスコードを指定することができます。
+
+- Filter by file extension
+URLの拡張子を指定することができます。
+
+- Filter by annotation
+HTTPログの「comment」や「highlight」したもののみ表示するなど指定することができます。
 
 ### 4.2.2 値を書き換えて送信してみよう！
-1. ブラウザでアクセスする(※この時以下二点の設定状況を確認)
-  - ブラウザ側で、3章で説明したProxy設定がされていること
-  - 「Intercept」タブが「Intercept is on」と設定されていること
-2. 「Intercept」タブで値を変更
-「Intercept」タブの画面構成及び見方について説明
-  - 上部ボタン
-    - Forward
-    - Drop
-    - Intercept on or off
-    - Action
-  - 下部タブ
-    - Raw
-    - Params
-    - Headers
-    - Hex
-3. 「HTTP hisotry」タブで結果を閲覧
-「Edited request」のタブに関する説明
-requestだけじゃなくてresponseのインターセプトについても補足する
+リクエストを改変する場合は「Intercept is On」でインターセプトしたリクエストの内容を変更します。Postデータを変更して送信されるContent-Lengthが変更された場合、Burp Suiteが変更後の内容をもとにContent-Lengthを再計算しセットするため、意識する必要はありません。
+
+「Foward」はインターセプトしたリクエストをサーバへ送信します。複数のリクエストがインターセプトされている場合、1リクエストづつに「Foward」をクリックする必要があります。
+
+「Drop」はインターセプトしたリクエストを破棄します。サーバへは送信されません。
+
+「Intercept is On」/「Intercept is Off」でインターセプトをするかどうかを設定します。ステータスを「Intercept is Off」に変更するとインターセプトされているすべてのリクエストがサーバに送信されます。
+
+「Actions」ではインターセプトしてリクエストに対するアクションを設定することができます。特定の条件のリクエストをインターセプトしない設定やレスポンスを設定するなど指定することができます。
+
+インターセプトしてリクエストの内容を変更した場合、「Proxy」-「HTTP history」の該当ログで「Edited」にチェックされます。また、下部のタブに「Original request」と「Edited request」が表示され、変更前と変更後のリクエストの内容を確認することができます。レスポンスを変更した場合は「Original response」と「Edited response」が表示され、変更前と変更後のレスポンスを確認することができます。
+
 
 ## 4.3 その他
 
