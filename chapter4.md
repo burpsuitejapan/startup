@@ -24,49 +24,42 @@ Burp Suiteのデフォルトはブラウザからのリクエストはインタ�
 
 「Proxy」-「HTTP history」には、Burp ProxyがProxyしたHTTPログが一覧で表示されます。以下の項目が表示されます。
 
-    - Host
-    - Method
-    - URL
-    - Params
-    - Edited
-    - Status
-    - Length
-    - MIME type
-    - Extension
-    - title
-    - Comment
-    - SSL
-    - IP
-    - Cookies
-    - Time
-    - Listener port
+- Host
+- Method
+- URL
+- Params
+- Edited
+- Status
+- Length
+- MIME type
+- Extension
+- title
+- Comment
+- SSL
+- IP
+- Cookies
+- Time
+- Listener port
 
 また、各HTTPログを選択すると下部に選択したHTTPログのリクエストおよびレスポンスが表示されます。RequestタブおよびResponseタブにそれぞれに以下のタブがあり、表示形式を変更して内容を確認することができます。※はResponseタブでのみ表示されます。
 
-    - Raw
-    - Params
-    - Headers
-    - Hex
-    - HTML ※
-    - Render ※
+- Raw
+- Params
+- Headers
+- Hex
+- HTML ※
+- Render ※
 
 「HTTP history」の一覧の各カラムをクリックすると降順または昇順での並び替えができます。例えば「Params」をクリックするとHTTPログの中でパラメータが存在するHTTPログが上部に表示されます。
 FilterをクリックするとHTTPログを設定する条件に応じてフィルタすることができます。正規表現でのフィルタ機能だけProfessinal Editioinのみ利用可能です。
 
-- Filter by request type
-スコープ内のログのみ表示やパラメータが存在するリクエストのみ表示するなど指定することができます。
-
-- Filter by MIME type
-HTMLやCSS、ScriptなどのMIMEタイプを指定することができます。
-
-- Filte by status code
-レスポンスのステータスコードを指定することができます。
-
-- Filter by file extension
-URLの拡張子を指定することができます。
-
-- Filter by annotation
-HTTPログの「comment」や「highlight」したもののみ表示するなど指定することができます。
+| 設定                |  設定内容  |
+|:---------------------|:-----------------------------------------------------------|
+| Filter by request type | スコープ内のログのみ表示やパラメータが存在するリクエストのみ表示するなど指定することができます。 |
+| Filter by MIME type | HTMLやCSS、ScriptなどのMIMEタイプを指定することができます。 |
+| Filte by status code | レスポンスのステータスコードを指定することができます。 |
+| Filter by file extension | URLの拡張子を指定することができます。 |
+| Filter by annotation | HTTPログの「comment」や「highlight」したもののみ表示するなど指定することができます。 |
 
 ### 4.2.2 値を書き換えて送信してみよう！
 リクエストを改変する場合は「Intercept is On」でインターセプトしたリクエストの内容を変更します。Postデータを変更して送信されるContent-Lengthが変更された場合、Burp Suiteが変更後の内容をもとにContent-Lengthを再計算しセットするため、意識する必要はありません。
