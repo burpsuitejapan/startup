@@ -213,18 +213,29 @@ ALLとToolsの使い分け、RequestとResponse
 
 ### 4.3.6 Intruder
 
-1.自動化の必要性
+Intruderとは、Webアプリケーションに対するさまざまな診断を自動化するためのツールです。
 
-2.使い方
-  - Instuderへの渡し方
-    - History右クリックからのsend IntruderあるいはCtrl+i
-  - Positions設定
-    - 自動設定
-    - 手動設定(微調整)
-  - Payloads
-    - Payload Type
-    - Payload Options(Simple List)
-  - 実行結果と見方
+ここでは、自分で定義した記号や文字列のリストを特定のパラメーターに設定する方法、および、パラメーター対して連番を自動生成する方法を述べます。
+
+1. Intruderへの登録
+
+「Proxy」タブの「HTTP History」タブで診断対象リクエストを右クリックして、表示されたコンテキストメニュー内の「Send to Intruder」をクリックします。
+
+![ProxyのHTTP_Historyで診断対象リクエスト右クリックのスクショ]()
+
+そうすると、Intruderタブのタイトル文字がオレンジ色に変化します。
+
+2. （仮）任意の文字列を特定のパラメーターに設定
+3. （仮）連番自動生成
+
+- Positions設定
+  - 自動設定
+  - 手動設定(微調整)
+- Payloads
+  - Payload Type
+  - Payload Options(Simple List)
+- 実行結果と見方
+
 
 3.便利な使い方
   - Grep Match
@@ -339,4 +350,3 @@ Burp Suiteや様々な拡張機能を使い込んでいくと、自分でも拡�
 
 - Burp Extender [https://portswigger.net/burp/extender/](https://portswigger.net/burp/extender/)
 - Burp API Javadoc [https://portswigger.net/burp/extender/api/](https://portswigger.net/burp/extender/api/)
-
