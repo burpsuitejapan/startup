@@ -1,28 +1,31 @@
 # 4 診断方法について
 ## 4.1 Proxy機能
 ### 4.1.1 Proxyを利用した通信キャプチャ
-一般的なクライアントProxytoolに関する説明
-MITMやっているようなお決まりの絵と内容を説明をするイメージ
-見るだけじゃなくて変更もできるよ。SSLもイケますよ。みたいなことを書く。
+Burp SuiteはHTTP,HTTPSをブラウザとWebサーバの仲介し、通信内容の参照や書き換えることができます。HTTPSのように暗号化されている場合、WebサーバとBurp Suite間の通信はWebサーバのサーバ証明書で暗号化を行いますが、Burp Suiteとブラウザ間の通信はBurp Suiteで生成されたサーバ証明書で暗号化されます。そのため、Burp Suiteが生成するサーバ証明書を信頼していない場合、ブラウザで警告が表示されます。
+
+※図（あとで）
 
 ### 4.1.2 Proxyタブの構成
-Proxyタブを構成する各タブに関する簡単な概要の説明
-- Intercept
-- HTTP history
-- WebSockets history
-- Options
+Proxyタブは複数のタブから構成されており、HTTPログの履歴参照やProxy設定などを行うことができます。
+
+| タブ | 機能概要 |
+|:---------------------|:-----------------------------------------------------------|
+| Intercept | HTTPやWebSocketのリクエストやレスポンスをインターセプトし、内容の確認や変更が可能 |
+| HTTP history | Proxyとして経由したすべてのHTTPログを参照可能 |
+| WebSockets history | Proxyとして経由したすべてのWebSocketsのログを参照可能 |
+| Options | Proxyの稼働IPアドレスやポートの設定、インターセプトの条件設定、HTTPログの置換設定など |
 
 ## 4.2 Burp Suiteによる通信のキャプチャ
 ### 4.2.1 通信をキャプチャしてみよう！
-Burp Suiteでブラウザの通信をキャプチャするためにブラウザで行ったProxy設定にあったIPアドレスおよびポートを設定する必要があります。Burp SuiteでのProxy設定は、「Proxy」-「Options」-「Proxy Listeners」で通信を受け付ける待ち受け用のIPアドレスおよびポートを設定します。デフォルトでは127.0.0.1の8080番で待ち受けるようになっています。
+Burp Suiteでブラウザの通信をキャプチャするためにブラウザで行ったProxy設定にあったIPアドレスおよびポートを設定する必要があります。Burp SuiteでのProxy設定は、[Proxy]-[Options]-[Proxy Listeners]で通信を受け付ける待ち受け用のIPアドレスおよびポートを設定します。デフォルトでは127.0.0.1の8080番で待ち受けるようになっています。
 
 ※Proxy Listenersの画像
 
-Burp Suiteのデフォルトはブラウザからのリクエストはインターセプト(止める)する設定になっています。デフォルトで「Proxy」-「Intercept」で「Intercept is On」になっています。ボタンをクリックすると「Intercept is Off」になり、インターセプトされないようになります。
+Burp Suiteのデフォルトはブラウザからのリクエストはインターセプト(止める)する設定になっています。デフォルトで[Proxy]-[Intercept]で[Intercept is On]になっています。ボタンをクリックすると[Intercept is Off]になり、インターセプトされないようになります。
 
-リクエストをインターセプトした場合、サーバにはリクエストが送信されていないため、レスポンスは表示されません。その場合、「Forward」をクリックするか、「Intercept is On」をクリックして「Intercept is Off」にするとインターセプトされていたリクエストがサーバに送信されます。
+リクエストをインターセプトした場合、サーバにはリクエストが送信されていないため、レスポンスは表示されません。その場合、[Forward]をクリックするか、[Intercept is On]をクリックして[Intercept is Off]にするとインターセプトされていたリクエストがサーバに送信されます。
 
-「Proxy」-「HTTP history」には、Burp ProxyがProxyしたHTTPログが一覧で表示されます。以下の項目が表示されます。
+[Proxy]-[HTTP history]には、Burp ProxyがProxyしたHTTPログが一覧で表示されます。以下の項目が表示されます。
 
 - Host
 - Method
@@ -50,7 +53,7 @@ Burp Suiteのデフォルトはブラウザからのリクエストはインタ�
 - HTML ※
 - Render ※
 
-「HTTP history」の一覧の各カラムをクリックすると降順または昇順での並び替えができます。例えば「Params」をクリックするとHTTPログの中でパラメータが存在するHTTPログが上部に表示されます。
+[HTTP history]の一覧の各カラムをクリックすると降順または昇順での並び替えができます。例えば[Params]をクリックするとHTTPログの中でパラメータが存在するHTTPログが上部に表示されます。
 FilterをクリックするとHTTPログを設定する条件に応じてフィルタすることができます。正規表現でのフィルタ機能だけProfessinal Editioinのみ利用可能です。
 
 | 設定                |  設定内容  |
@@ -59,20 +62,20 @@ FilterをクリックするとHTTPログを設定する条件に応じてフィ�
 | Filter by MIME type | HTMLやCSS、ScriptなどのMIMEタイプを指定することができます。 |
 | Filte by status code | レスポンスのステータスコードを指定することができます。 |
 | Filter by file extension | URLの拡張子を指定することができます。 |
-| Filter by annotation | HTTPログの「comment」や「highlight」したもののみ表示するなど指定することができます。 |
+| Filter by annotation | HTTPログの[comment]や[highlight]したもののみ表示するなど指定することができます。 |
 
 ### 4.2.2 値を書き換えて送信してみよう！
-リクエストを改変する場合は「Intercept is On」でインターセプトしたリクエストの内容を変更します。Postデータを変更して送信されるContent-Lengthが変更された場合、Burp Suiteが変更後の内容をもとにContent-Lengthを再計算しセットするため、意識する必要はありません。
+リクエストを改変する場合は[Intercept is On]でインターセプトしたリクエストの内容を変更します。Postデータを変更して送信されるContent-Lengthが変更された場合、Burp Suiteが変更後の内容をもとにContent-Lengthを再計算しセットするため、意識する必要はありません。
 
-「Foward」はインターセプトしたリクエストをサーバへ送信します。複数のリクエストがインターセプトされている場合、1リクエストづつに「Foward」をクリックする必要があります。
+[Foward]はインターセプトしたリクエストをサーバへ送信します。複数のリクエストがインターセプトされている場合、1リクエストづつに[Fowardをクリックする必要があります。
 
-「Drop」はインターセプトしたリクエストを破棄します。サーバへは送信されません。
+[Drop]はインターセプトしたリクエストを破棄します。サーバへは送信されません。
 
-「Intercept is On」/「Intercept is Off」でインターセプトをするかどうかを設定します。ステータスを「Intercept is Off」に変更するとインターセプトされているすべてのリクエストがサーバに送信されます。
+[Intercept is On]/[Intercept is Off]でインターセプトをするかどうかを設定します。ステータスを[Intercept is Off]に変更するとインターセプトされているすべてのリクエストがサーバに送信されます。
 
-「Actions」ではインターセプトしてリクエストに対するアクションを設定することができます。特定の条件のリクエストをインターセプトしない設定やレスポンスを設定するなど指定することができます。
+[Actions]ではインターセプトしてリクエストに対するアクションを設定することができます。特定の条件のリクエストをインターセプトしない設定やレスポンスを設定するなど指定することができます。
 
-インターセプトしてリクエストの内容を変更した場合、「Proxy」-「HTTP history」の該当ログで「Edited」にチェックされます。また、下部のタブに「Original request」と「Edited request」が表示され、変更前と変更後のリクエストの内容を確認することができます。レスポンスを変更した場合は「Original response」と「Edited response」が表示され、変更前と変更後のレスポンスを確認することができます。
+インターセプトしてリクエストの内容を変更した場合、[Proxy]-[HTTP history]の該当ログで[Edited]にチェックされます。また、下部のタブに[Original request]と[Edited request]が表示され、変更前と変更後のリクエストの内容を確認することができます。レスポンスを変更した場合は[Original response]と[Edited response]が表示され、変更前と変更後のレスポンスを確認することができます。
 
 
 ## 4.3 その他
@@ -82,28 +85,28 @@ FilterをクリックするとHTTPログを設定する条件に応じてフィ�
 検査では、リクエストを多数送信します。Repeaterを使用することで、HTTP Historyからコピーしたリクエストを送信したり、新規に作成したリクエストを送信することが出来ます。
 
 #### 4.3.1.1 Historyからリクエストのコピー
-1. Repeaterにコピーしたいリクエストを「HTTP History」で選択します。
-2. 「Send To Repeater」を選択し、Repeaterにリクエストをコピーします。
+1. Repeaterにコピーしたいリクエストを[HTTP History]で選択します。
+2. [Send To Repeater]を選択し、Repeaterにリクエストをコピーします。
 3. Repeaterを開きます。
 
 #### 4.3.1.2 リクエストの新規作成
-1. Repeaterの「...」タブを選択します。
-2. 右上にある「Target」をクリックします。接続先を入力する画面が表示されます。「Host」、「Port」を入力し、「OK」ボタンを押します。HTTPSでの接続を行う場合は、「Use HTTPS」にチェックを入れます。
+1. Repeaterの[...]タブを選択します。
+2. 右上にある[Target]をクリックします。接続先を入力する画面が表示されます。[Host]、[Port]を入力し、[OK]ボタンを押します。HTTPSでの接続を行う場合は、[Use HTTPS]にチェックを入れます。
 
 #### 4.3.1.3 リクエストの編集、送信
 1. 編集したいリクエストのタブを選択します。
-2. 「Request」の「RAW」タブでは生のHTTPリクエストを直接編集できます。
-「Request」の「Params」タブではパラメーターを表形式で表示し、変更できます。「Type」を変更することで、パラメーターの位置を変更できます。例えば、「Type」を「Body」から「Cookie」に変更することで、ボディパラメーターをCookieに移動することが出来ます。「Add」ボタンを押すとパラメーターを追加できます。「Remove」ボタンを押すと選択しているパラメーターを削除できます。「Up」ボタン、「Down」ボタンを押すとパラメーターを送信する順番を変更できます。
-「Request」の「Headers」タブではヘッダーを表形式で表示し、変更できます。「Add」ボタンを押すとヘッダーを追加できます。「Remove」ボタンを押すと選択しているヘッダーを削除できます。「Up」ボタン、「Down」ボタンを押すとヘッダーを送信する順番を変更できます。
-「Request」の「Hex」タブではリクエストをHexで確認、編集できます。
+2. [Request]の[RAW]タブではHTTPリクエストを直接編集できます。
+[Request]-[Params]タブではパラメーターを表形式で表示し、変更できます。[Type]を変更することで、パラメーターの位置を変更できます。例えば、[Type]を[Body]から[Cookie]に変更することで、ボディパラメーターをCookieに移動することが出来ます。[Add]ボタンを押すとパラメーターを追加できます。[Remove]ボタンを押すと選択しているパラメーターを削除できます。[Up]ボタン、[Down]ボタンを押すとパラメーターを送信する順番を変更できます。
+[Request]-[Headers]タブではヘッダーを表形式で表示し、変更できます。[Add]ボタンを押すとヘッダーを追加できます。[Remove]ボタンを押すと選択しているヘッダーを削除できます。[Up]ボタン、[Down]ボタンを押すとヘッダーを送信する順番を変更できます。
+[Request]-[Hex]タブではリクエストをHexで確認、編集できます。
 3. 右上にある「Target」をクリックすると、接続先を変更できます。
-4. 「Go」ボタンを押し、リクエストを送信します。
+4. [Go]ボタンを押し、リクエストを送信します。
 
 #### 4.3.1.4 レスポンスの確認
 1. 「Response」の「Raw」タブでは生のHTTPレスポンスを確認できます。
 2. 「Response」の「Headers」タブではヘッダーを表形式で表示します。
-「Response」の「Hex」タブではレスポンスをHexで表示します。
-「Response」の「Render」タブではResponseがHTMLの場合、レスポンスをレンダリングし表示します。
+[Response]-[Hex]タブではレスポンスをHexで表示します。
+[Response]-[Render]タブではResponseがHTMLの場合、レスポンスをレンダリングし表示します。
 
 ### 4.3.2 Scope設定
 
@@ -187,31 +190,69 @@ OS Xの場合は「キーチェーンアクセス」アプリにより設定し�
 1. 「証明書のインポート」ダイアログで「この認証局によるWebサイトの識別を信頼する」にチェックを入れて「OK」ボタンをクリック
 
 ### 4.3.4 ログ保存設定
+Free Editionではログ保存する方法が限られています。Professional EditionではProjectファイル(v1.7以前はstateファイル、v1.7以降はProjectファイル)でHTTPログなどの保存することが可能ですが、Free EditionではProjectファイルの保存ができません。Free Editionでのログ保存は、[User Options]-[Misc]-[Logging]で[All tools]の[Request]と[Response]をチェックするとリクエストおよびレスポンスが指定されるファイルにテキスト形式で保存される。[All tools]は一部の例外を除きBurp Suiteを用いてアクセスしたログがすべて保存されます。
 
-1.[Options]-[Misc]-Logging]の設定
-ALLとToolsの使い分け、RequestとResponse
+図（あとで）
 
-2.ログの見方
+ヘッダとしてアクセス時刻、プロトコル、ドメインが出力されます。リクエストとレスポンスを===で分離して出力されます。
 
-3.[参考]Logger++の紹介
+```
+======================================================
+22:32:54  https://portswigger.net:443  [54.246.133.196]
+======================================================
+GET / HTTP/1.1
+Host: portswigger.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: ja,en-US;q=0.7,en;q=0.3
+Accept-Encoding: gzip, deflate, br
+Connection: close
+
+
+======================================================
+HTTP/1.1 200 OK
+Cache-Control: no-store, no-cache
+Content-Type: text/html
+Last-Modified: Thu, 12 May 2016 14:38:34 GMT
+Accept-Ranges: bytes
+ETag: "0515f65bacd11:0"
+Vary: Accept-Encoding
+Server: Microsoft-IIS/7.5
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000; preload
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+X-Powered-By: ASP.NET
+Date: Sun, 03 Jul 2016 13:32:54 GMT
+Connection: close
+Content-Length: 7012
+
+```
 
 ### 4.3.5 アップストリームProxy設定
 
-1.背景
-- 社内Proxyの図
-  - Proxy Host
-  - Proxy Port
+Burp SuiteがProxyの役割を持っていますが、アップストリームProxy(上位にあるProxy)を指定することができます。企業などのネットワークでProxyを経由する必要がある場合やBurp Suite以外のProxyを経由する場合に設定する必要があります。Free Editionではログの保存機能が十分ではないため、ZAPやFiddlerなどの別のProxyでログを保存するなどの活用方法があります。
 
-2.設定
-  - 具体的な設定値例(図)
-    - Desitination Hostに*(ワイルドカード)入れる話は必須
-    - 認証方式、ID/PWD
+[User Options]-[Connections]-[Upstream Proxy Server]で[Add]をクリックすると[Add upstream proxy rule]が表示されます。Upstream Proxyは複数設定することができますが、[Destination host]の条件に最初に合致したUpstream Proxyを利用します。
 
-3.Burp特有の問題と対策
-  - 名前解決遅くなる問題
-  - Connection timeout待ちで遅い問題
+|                 |  設定内容  |
+|:---------------------|:-----------------------------------------------------------|
+| Destination host | Proxyする対象に応じてUpstream Proxyを変更する場合にドメイン名などを設定します。Proxyするすべてのリクエストを特定のUpstream Proxyで行う場合は*(アスタリスク)を設定します。 |
+| Proxy host | Upstream Proxyが稼働するHostのIPアドレスなどを設定します。 |
+| Proxy port | Upstream Proxyが稼働するポート番号を設定します。 |
+| Authentication type | Upstream Proxyへのアクセスに認証が必要な場合に認証方法に応じて選択します。選択可能な認証方法は、Basic、NTLMv1、NTLMv2、Digestです。|
+| Username | 認証のユーザ名を設定します。 |
+| Password | 認証のパスワードを設定します。 |
+| Domain | NTLM認証のドメイン名を設定します。 |
+| Domain hostname | NTLM認証のドメインコントローラのホストを設定します。 |
+
+図（あとで）
 
 ### 4.3.6 Intruder
+Intruderは設定されたパターンを自動的に送信する機能で、SQLインジェクションやXSSなど検査するためのパターンを設定し、送信させることで診断を行うことができます。脆弱性の有無は、レスポンス内容を確認し判定する必要があります。Professional Editionで利用可能なScannerはパラメータの自動認識、診断パターンの送信、結果判定を自動的に行うため、Intruderとはこの点において差があります。
+
+
+
 
 1.自動化の必要性
 
