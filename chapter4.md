@@ -3,10 +3,10 @@
 ### 4.1.1 Proxyを利用した通信キャプチャ
 Burp SuiteはHTTP,HTTPSをブラウザとWebサーバの仲介し、通信内容の参照や書き換えることができます。HTTPSのように暗号化されている場合、WebサーバとBurp Suite間の通信はWebサーバのサーバ証明書で暗号化を行いますが、Burp Suiteとブラウザ間の通信はBurp Suiteで生成されたサーバ証明書で暗号化されます。そのため、Burp Suiteが生成するサーバ証明書を信頼していない場合、ブラウザで警告が表示されます。
 
-※図（あとで）
-
 ### 4.1.2 Proxyタブの構成
 Proxyタブは複数のタブから構成されており、HTTPログの履歴参照やProxy設定などを行うことができます。
+
+![Proxyタブ](./img/proxytab.png "Proxyタブ")
 
 | タブ | 機能概要 |
 |:---------------------|:-----------------------------------------------------------|
@@ -17,13 +17,9 @@ Proxyタブは複数のタブから構成されており、HTTPログの履歴�
 
 ## 4.2 Burp Suiteによる通信のキャプチャ
 ### 4.2.1 通信をキャプチャしてみよう！
-Burp Suiteでブラウザの通信をキャプチャするためにブラウザで行ったProxy設定にあったIPアドレスおよびポートを設定する必要があります。Burp SuiteでのProxy設定は、[Proxy]-[Options]-[Proxy Listeners]で通信を受け付ける待ち受け用のIPアドレスおよびポートを設定します。デフォルトでは127.0.0.1の8080番で待ち受けるようになっています。
+Burp Suiteが稼働するIPアドレスおよびポートをブラウザでProxyとして適切に設定することでBurp Suiteはブラウザのリクエスト・レスポンスを仲介します。リクエスト・レスポンスの内容を変更する場合はインターセプトなどする必要があります。
 
-※Proxy Listenersの画像
-
-Burp Suiteのデフォルトはブラウザからのリクエストはインターセプト(止める)する設定になっています。デフォルトで[Proxy]-[Intercept]で[Intercept is On]になっています。ボタンをクリックすると[Intercept is Off]になり、インターセプトされないようになります。
-
-リクエストをインターセプトした場合、サーバにはリクエストが送信されていないため、レスポンスは表示されません。その場合、[Forward]をクリックするか、[Intercept is On]をクリックして[Intercept is Off]にするとインターセプトされていたリクエストがサーバに送信されます。
+リクエストをインターセプトするとブラウザからサーバへのリクエストはBurp Suiteと止められてしまうため、レスポンスがなく、ブラウザは何も表示されません。[Forward]をクリックするか、[Intercept is On]をクリックして[Intercept is Off]にするとインターセプトされていたリクエストがサーバに送信されます。
 
 [Proxy]-[HTTP history]には、Burp ProxyがProxyしたHTTPログが一覧で表示されます。以下の項目が表示されます。
 
@@ -44,14 +40,18 @@ Burp Suiteのデフォルトはブラウザからのリクエストはインタ�
 - Time
 - Listener port
 
-また、各HTTPログを選択すると下部に選択したHTTPログのリクエストおよびレスポンスが表示されます。RequestタブおよびResponseタブにそれぞれに以下のタブがあり、表示形式を変更して内容を確認することができます。※はResponseタブでのみ表示されます。
+![HTTP history一覧](./img/http_history_label.png "HTTP history一覧")
+
+また、各HTTPログを選択すると下部に選択したHTTPログのリクエストおよびレスポンスが表示されます。RequestタブおよびResponseタブにそれぞれに以下のタブがあり、表示形式を変更して内容を確認することができます。※1はRequestタブのみ、※2はResponseタブでのみ表示されます。
 
 - Raw
-- Params
+- Params ※1
 - Headers
 - Hex
-- HTML ※
-- Render ※
+- HTML ※2
+- Render ※2
+
+![HTTPログ レスポンス](./img/http_response.png "HTTPログ レスポンス")
 
 [HTTP history]の一覧の各カラムをクリックすると降順または昇順での並び替えができます。例えば[Params]をクリックするとHTTPログの中でパラメータが存在するHTTPログが上部に表示されます。
 FilterをクリックするとHTTPログを設定する条件に応じてフィルタすることができます。正規表現でのフィルタ機能だけProfessinal Editioinのみ利用可能です。
@@ -69,13 +69,19 @@ FilterをクリックするとHTTPログを設定する条件に応じてフィ�
 
 [Foward]はインターセプトしたリクエストをサーバへ送信します。複数のリクエストがインターセプトされている場合、1リクエストづつに[Fowardをクリックする必要があります。
 
+![リクエストをインターセプト](./img/intercept_request.png "リクエストをインターセプト")
+
 [Drop]はインターセプトしたリクエストを破棄します。サーバへは送信されません。
 
 [Intercept is On]/[Intercept is Off]でインターセプトをするかどうかを設定します。ステータスを[Intercept is Off]に変更するとインターセプトされているすべてのリクエストがサーバに送信されます。
 
 [Actions]ではインターセプトしてリクエストに対するアクションを設定することができます。特定の条件のリクエストをインターセプトしない設定やレスポンスを設定するなど指定することができます。
 
+![インターセプトしたリクエストに対するAction](./img/intercept_action.png "インターセプトしたリクエストに対するAction")
+
 インターセプトしてリクエストの内容を変更した場合、[Proxy]-[HTTP history]の該当ログで[Edited]にチェックされます。また、下部のタブに[Original request]と[Edited request]が表示され、変更前と変更後のリクエストの内容を確認することができます。レスポンスを変更した場合は[Original response]と[Edited response]が表示され、変更前と変更後のレスポンスを確認することができます。
+
+![編集されたリクエスト](./img/edited_request.png "編集されたリクエスト")
 
 
 ## 4.3 その他
@@ -89,18 +95,32 @@ FilterをクリックするとHTTPログを設定する条件に応じてフィ�
 2. [Send To Repeater]を選択し、Repeaterにリクエストをコピーします。
 3. Repeaterを開きます。
 
+![Send To Repeaterによるコピー](./img/sendtorepeater.png "Send To Repeaterによるコピー")
+
 #### 4.3.1.2 リクエストの新規作成
 1. Repeaterの[...]タブを選択します。
 2. 右上にある[Target]をクリックします。接続先を入力する画面が表示されます。[Host]、[Port]を入力し、[OK]ボタンを押します。HTTPSでの接続を行う場合は、[Use HTTPS]にチェックを入れます。
 
+![Send To Repeaterによるコピー](./img/sendtorepeater.png "Send To Repeaterによるコピー")
+
 #### 4.3.1.3 リクエストの編集、送信
 1. 編集したいリクエストのタブを選択します。
 2. [Request]の[RAW]タブではHTTPリクエストを直接編集できます。
-[Request]-[Params]タブではパラメーターを表形式で表示し、変更できます。[Type]を変更することで、パラメーターの位置を変更できます。例えば、[Type]を[Body]から[Cookie]に変更することで、ボディパラメーターをCookieに移動することが出来ます。[Add]ボタンを押すとパラメーターを追加できます。[Remove]ボタンを押すと選択しているパラメーターを削除できます。[Up]ボタン、[Down]ボタンを押すとパラメーターを送信する順番を変更できます。
+
+[Request]-[Params]タブではパラメータを表形式で表示し、変更できます。[Type]を変更することで、パラメータの位置を変更できます。例えば、[Type]を[Body]から[Cookie]に変更することで、ボディパラメータをCookieに移動することが出来ます。
+
+![パラメータのTypeを変更](./img/repeater_change_type.png "パラメータのTypeを変更")
+
+[Add]ボタンを押すとパラメーターを追加できます。[Remove]ボタンを押すと選択しているパラメーターを削除できます。[Up]ボタン、[Down]ボタンを押すとパラメーターを送信する順番を変更できます。
+
+![パラメータを追加](./img/repeater_add.png "パラメータを追加")
+
 [Request]-[Headers]タブではヘッダーを表形式で表示し、変更できます。[Add]ボタンを押すとヘッダーを追加できます。[Remove]ボタンを押すと選択しているヘッダーを削除できます。[Up]ボタン、[Down]ボタンを押すとヘッダーを送信する順番を変更できます。
 [Request]-[Hex]タブではリクエストをHexで確認、編集できます。
 3. 右上にある「Target」をクリックすると、接続先を変更できます。
 4. [Go]ボタンを押し、リクエストを送信します。
+
+![Repeaterでの送信](./img/repeater_go.png "Repeaterでの送信")
 
 #### 4.3.1.4 レスポンスの確認
 1. 「Response」の「Raw」タブでは生のHTTPレスポンスを確認できます。
@@ -108,34 +128,48 @@ FilterをクリックするとHTTPログを設定する条件に応じてフィ�
 [Response]-[Hex]タブではレスポンスをHexで表示します。
 [Response]-[Render]タブではResponseがHTMLの場合、レスポンスをレンダリングし表示します。
 
+![Repeaterでのレスポンス表示](./img/repeater_response.png "Repeaterでのレスポンス表示")
+
 ### 4.3.2 Scope設定
 
-検査対象外のアプリケーションに対して検査を実施してはいけません。誤って検査対象外のサーバー、URLを検査しないようにScopeを設定します。
-Scopeを設定することで、Burpの動作に以下のような制限がかかります。
+検査対象外のアプリケーションに対して検査を実施してはいけません。誤って検査対象外のサーバー、URLを検査しないようにScopeを設定します。Scopeを設定することで、Burp Suiteの動作に以下のような制限がかかります。
 
 ・Scopeで設定した条件を満たさないリクエストをProxy Historyに表示しないように出来ます。
 ・Scopeで設定した条件を満たすリクエストのみをInterceptして、リクエストの改ざんが出来るようにします。
 ・Scopeで設定した条件を満たさないリクエストをSpiderの開始URLとしようとすると、Scopeに追加することを確認するポップアップが表示されます。
 
-Include in scope
-ここに記述された条件はスコープ内として認識されます。
+| 対象                |  動作  |
+|:---------------------|:-----------------------------------------------------------|
+| Include in scope | 記述された条件はスコープ内として認識されます。 |
+| Exclude from scan | 記述された条件を満たすリクエストはスコープ外として認識されます。 |
 
-Exclude from scan
-ここに記述された条件を満たすリクエストはスコープ外として認識されます。
+デフォルトで、[Exclude from scan]に4つ設定されています。これは、Spider(自動巡回する機能)を実行した際に、ログアウトしてセッションが無効化されないようにログアウト機能と推測される文字列を含むURLにはアクセスしようにようにしているためです。
+
+![Scopeタブ](./img/scope.png "Scopeタブ")
 
 #### 4.3.2.1 Scopeへの追加
 Scopeの追加は2つ方法があります。
-1. 「Add」ボタンを使用する
-2. 「Paste URL」ボタンを使用する
+1. [Add]ボタンを使用する
+2. [Paste URL]ボタンを使用する
 
-「Add」ボタンを使用する
-1. 「Add」ボタンを押します。
-2. 「Host or IP range」、「Port」、「File」を正規表現で記述します。
-3. 「OK」ボタンを押します。
+[Add]ボタンを使用する
+1. [Add]ボタンを押します。
+2. [Host or IP range]、[Port]、[File]を正規表現で記述します。
+3. [OK]ボタンを押します。
 
-「Paste URL」ボタンを使用する
-1. スコープに含めたいURLをCntl+Cでコピーします。
-2. 「Paste URL」ボタンを押します。
+![Scopeの追加①](./img/add_scope.png "Scopeの追加①")
+
+「Add to scope」ボタンを使用する
+1. スコープに含めたいHTTPログを選択して右クリックします。
+2. コンテキストメニュから[Add to scope]をクリックします。
+
+![Scopeの追加②](./img/add_to_scope.png "Scopeの追加②")
+
+| パターン                |  設定内容  |
+|:---------------------|:-----------------------------------------------------------|
+| 診断対象がportswigger.netでURLやプロトコルが事前に分からない場合 | [Include in scope]で[Host or IP range]に^portswigger\.net$と設定します。[Port]や[File]などの他の項目を設定しない場合、ドメインportswigger.netに対するリクエストはすべて許可されます。 |
+| 診断対象が192.168.1.1で/sample/以下のパスに対して実施する場合 | [Include in scope]で[Host or IP range]に192\.168\.1\.1$を、[File]に/sample/を設定します。http、httpsの/sample/配下にあるコンテンツすべてがスコープ内になります。 |
+| 診断対象がportswigger.netで/sample/以下のパスで/sample/exclude/を除いて実施する場合 | [Include in scope]で[Host or IP range]に^portswigger\.net$を、[File]に/sample/を設定します。[Exclude in scope]で[File]に^/sample/exclue/を設定します。 |
 
 #### 4.3.2.1 Scopeからの削除
 1. 削除したい条件を選択します。
@@ -146,8 +180,6 @@ Scopeの追加は2つ方法があります。
 暗号化通信（https://～）が必要なWebアプリケーションに、デフォルト設定のBurp Suiteでアクセスすると、ブラウザに送信された証明書が不正であることを伝えるセキュリティ警告画面が表示されます。
 
 ![Firefoxのセキュリティ警告画面](./img/chapter4.3.3-before_CA_install_firefox.png "Firefoxのセキュリティ警告画面")
-
-図4-3-3-a Firefoxのセキュリティ警告画面
 
 セキュリティ警告画面が表示される原因は、Burp Suiteが起動時に独自に生成したCA証明書により署名された自己署名証明書を接続に使用しているためです。
 
@@ -164,6 +196,8 @@ Scopeの追加は2つ方法があります。
 1. ブラウザのプロキシ設定がBurp Suiteに接続するようになっていることを確認
 1. http://burp/ にアクセスして「CA certificate」リンクをクリック
 1. 任意の名前でCA証明書を保存
+
+![CA certificateの保存](./img/firefox_cacertificate.png "CA certificateの保存")
 
 #### Windows
 
@@ -192,7 +226,7 @@ OS Xの場合は「キーチェーンアクセス」アプリにより設定し�
 ### 4.3.4 ログ保存設定
 Free Editionではログ保存する方法が限られています。Professional EditionではProjectファイル(v1.7以前はstateファイル、v1.7以降はProjectファイル)でHTTPログなどの保存することが可能ですが、Free EditionではProjectファイルの保存ができません。Free Editionでのログ保存は、[User Options]-[Misc]-[Logging]で[All tools]の[Request]と[Response]をチェックするとリクエストおよびレスポンスが指定されるファイルにテキスト形式で保存される。[All tools]は一部の例外を除きBurp Suiteを用いてアクセスしたログがすべて保存されます。
 
-図（あとで）
+![Logging](./img/logging.png "Logging")
 
 ヘッダとしてアクセス時刻、プロトコル、ドメインが出力されます。リクエストとレスポンスを===で分離して出力されます。
 
@@ -233,6 +267,8 @@ Content-Length: 7012
 
 Burp SuiteがProxyの役割を持っていますが、アップストリームProxy(上位にあるProxy)を指定することができます。企業などのネットワークでProxyを経由する必要がある場合やBurp Suite以外のProxyを経由する場合に設定する必要があります。Free Editionではログの保存機能が十分ではないため、ZAPやFiddlerなどの別のProxyでログを保存するなどの活用方法があります。
 
+![Upstream Proxyの設定](./img/upstream_proxy_servers.png "Upstream Proxyの設定")
+
 [User Options]-[Connections]-[Upstream Proxy Server]で[Add]をクリックすると[Add upstream proxy rule]が表示されます。Upstream Proxyは複数設定することができますが、[Destination host]の条件に最初に合致したUpstream Proxyを利用します。
 
 |                 |  設定内容  |
@@ -246,36 +282,36 @@ Burp SuiteがProxyの役割を持っていますが、アップストリームPr
 | Domain | NTLM認証のドメイン名を設定します。 |
 | Domain hostname | NTLM認証のドメインコントローラのホストを設定します。 |
 
-図（あとで）
+![Upstream Proxyの入力](./img/add_upstream_proxy_rule.png "Upstream Proxyの入力")
 
 ### 4.3.6 Intruder
 Intruderは任意のリクエストで事前に設定されたパターンを自動的に送信する機能で、SQLインジェクションやXSSなど検査するためのパターンを設定し、送信させることで診断を行うことができます。脆弱性の有無は、レスポンス内容を確認し判断する必要があります。設定されたパターンを自動的に送信するため、入力ミスがないため診断を確実に実施することが可能です。Professional Editionで利用可能なScannerはパラメータの自動認識、診断パターンの送信、結果判定を自動的に行うため、Intruderとはこの点において差があります。
 
 #### 4.3.6.1 診断のやり方
-Repeaterにコピーしたいリクエストを[Proxy]-[HTTP History]タブで選択します。
+Intruderにコピーしたいリクエストを[Proxy]-[HTTP History]タブで選択します。[Send To Intruder]を選択し、Intruderにリクエストをコピーします。
 
-図あとで
+![Send To Intruder](./img/send_to_intruder.png "Send To Intruder")
 
-[Send To Intruder]を選択し、Intruderにリクエストをコピーします。対象とするホストなどを変更する場合、[Intruder]-[Target]タブで[Host]、[Port]を変更します。HTTPSでの接続を行う場合は、[Use HTTPS]にチェックを入れます。
+対象とするホストなどを変更する場合、[Intruder]-[Target]タブで[Host]、[Port]を変更します。HTTPSでの接続を行う場合は、[Use HTTPS]にチェックを入れます。
 
-図あとで
+![ホストの変更](./img/customize_intruder.png "ホストの変更")
 
 [Intruder]-[Positions]タブをクリックします。[Send To Intruder]で対象リクエストを入力した場合、診断箇所は自動的に[§]が囲まれます。追加したい場合、診断したい箇所を選択し、[Add §]をクリックします。診断箇所は複数選択することが可能です。[Auto §]で自動的に診断箇所を設定する子が可能で、URLクエリー、リクエストボディ、Cookie、マルチ―パートのパラメータ、XMLデータやエレメント、JSONを自動的に認識します。
 
-図あとで
+![診断箇所の指定](./img/payload_positions.png "診断箇所の指定")
 
 [Intruder]-[Payloads]タブをクリックします。[Payload Options]で診断したいパターンを設定します。改行区切りのテキストの読み込みやパターンを1つづつ入力することも可能です。また、[Payload Encoding]でURLエンコードする文字を設定することができます。
 
-図あとで
+![診断パターンの設定](./img/payload_options_simple_list.png "診断パターンの設定")
 
 右上にある[Start attack]をクリックします。
 
-図あとで
+![Start attack](./img/start_attack.png "Start attack")
 
 #### 4.3.6.2 結果の確認方法
 Intruderが実行されると実行ウィンドウが表示されます。[Results]に診断箇所へ診断パターンを送信した結果が一覧で表示されます。各カラム名をクリックすることでソースすることも可能です。
 
-図あとで
+![結果一覧](./img/intruder_result.png "結果一覧")
 
 | カラム |  内容  |
 |:---------------------|:-----------------------------------------------------------|
@@ -290,19 +326,21 @@ Intruderが実行されると実行ウィンドウが表示されます。[Resul
 
 一覧で任意のログを選択するとウィンドウ下部の[Request]、[Response]タブにそれぞれの結果が表示されます。また、結果分析の補助機能として[Options]に[Grep - Match]と[Grep - Extract]があります。
 
-[Grep - Match]は特定の文字列を指定することでレスポンス中に該当の文字列が含まれているかを確認するための機能です。
+[Grep - Match]は特定の文字列を指定することでレスポンス中に該当の文字列が含まれているかを確認するための機能です。[Flag result items with response matching these expressions]をチェックすると[Grep - Match]が有効化されます。設定を有効化すると[Go attack]実行後でも、該当の文字列が含まれるか確認することができます。
 
-図あとで
+![Grep - Match](./img/grep_match.png "Grep - Match")
 
-[Grep - Extract]は元のリクエストから正規表現により該当する箇所のログを出力するための機能です。
+[Grep - Extract]は元のリクエストから正規表現により該当する箇所のログを出力するための機能です。[Grep - Match]同様に、[Extract the following items from responses]をチェックすると有効化されます。
 
-図あとで
+![Grep - Extract](./img/grep_extract.png "Grep - Extract")
+
+[Add]で正規表現のルールを設定できるようになります。元となるレスポンスから範囲選択することで[Start after expression]と[End at delimiter]が自動的設定されます。設定された該当する箇所が一覧で表示されます。
+
+![Extractの定義](./img/define_extract_grep_item.png "Extractの定義")
 
 ### 4.3.7 Extender
-
 Burp Suiteは、ユーザ自身、または第三者が独自に開発した拡張機能を取り込み、様々な機能の拡張ができます。
-例えば、HTTPリクエスト・レスポンスの修正、UIのカスタマイズ、外部ツールとの連携、Intruderの独自ペイロードの作成、Scannerのシグネチャ追加（Professional版用）などです。
-これらの拡張機能の取り込みや管理をするためのツールが、Extenderです。
+例えば、HTTPリクエスト・レスポンスの修正、UIのカスタマイズ、外部ツールとの連携、Intruderの独自ペイロードの作成、Scannerのシグネチャ追加（Professional版用）などです。これらの拡張機能の取り込みや管理をするためのツールが、Extenderです。
 
 Burp Suiteで拡張機能を利用するには、２つの方法があります。拡張機能のファイルを用意し登録する方法と、BApp Storeを利用する方法です。
 まずは、BApp Storeを利用する方法を説明します。
@@ -314,23 +352,23 @@ Burp Suiteで拡張機能を利用するには、２つの方法があります�
 BApp Storeで公開されている拡張機能は、Burp SuiteのUI上から簡単に取り込めるようになっています。
 「Extender」の「BApp Store」タブを開きます。
 
-![Burp SuiteのBApp Store画面]()
+![BApp Store画面](./img/bapp_store.png "BApp Store画面")
 
 この画面で、拡張機能名と詳細情報が確認できます。
 一部の拡張機能は、Professional版でのみ利用可能で、Detail列にその旨記載があります。
 
-それでは、「Logger++」という拡張機能をインストールしてみましょう。
+それでは、Logger++という拡張機能をインストールしてみましょう。
 この拡張機能は、Burp Suiteの様々なツールが送受信したHTTPメッセージを、ProxyのHTTP historyのようなインタフェースで表示できる拡張機能です。
 
-左側の一覧表から、「Logger++」を選択します。すると右側のペインにLogger++の詳細情報が表示されます。
-一番下の「Install」ボタンをクリックしてください。インストールが進み、ボタンが「Reinstall」に変われば、インストールは完了です。
+左側の一覧表から、[Logger++]を選択します。すると右側のペインにLogger++の詳細情報が表示されます。
+一番下の[Install]ボタンをクリックしてください。インストールが進み、ボタンが[Reinstall]に変われば、インストールは完了です。
 
 拡張機能によってBurp Suiteのどこを拡張するかは様々です。
 カスタムタブの追加、コンテキストメニューへのアイテム追加、メッセージエディターへのタブ追加など、UIに反映される箇所は異なり、またUI上では変化が分からないものもありますので、拡張機能の詳細情報で確認してください。
 Logger++の場合は、カスタムタブが追加されています。
 Logger++の詳細には触れませんので、様々なサイトにアクセスしてどのようなログが取れるか確認してください。
 
-![Logger++画面]()
+![Logger++](./img/logger.png "Logger++")
 
 #### 拡張機能ファイルを登録する
 
@@ -344,31 +382,25 @@ OgaCopy（[http://www.geocities.jp/burplogviewer/burpextender.html](http://www.g
 
 まず上記のサイトにアクセスし、JARファイルをダウンロードします（2016/06時点で最新はv1.1）。保存場所は任意の場所でかまいません。
 
-![OgaCopyサイトのスクショ]()
+![OgaCopyサイト](./img/ogacopy.png "OgaCopyサイト")
 
 Burp SuiteのUIで「Extender」の「Extensions」タブを開きます。
 上部のペインには、インストールされている拡張機能が表示されています。
 前述の手順でBApp StoreからLogger++をインストールしているばあいは、ここに表示されているはずです。
 
-![Extender Extensions]()
+![Extender - Extensions](./img/extensions.png "Extender - Extensions")
 
 左側から「Add」ボタンをクリックすると、「Load Burp Extension」ダイアログボックスが開きます。
 
-![Load Burp Extensionダイアログボックス]()
+![Load Burp Extensionダイアログボックス](./img/load_burp_extension.png "Load Burp Extensionダイアログボックス")
 
 Extension typeに「Java」が選択されていることを確認し、「Select file...」ボタンをクリックします。
 ここで、先程ダウンロードしておいた、OgaCopy_v1.1.jarを選択します。
 
-「Next」ボタンをクリックすると、拡張機能が読み込まれます。
-「Output」と「Errors」というタブがあり。ここには拡張機能が出力するログが表示されます。
-OgaCopy の場合は、Outputタブに、"OgaCopy v1.1 Load OK!"と表示されているはずです。
-右下の「Close」ボタンをクリックして、このダイアログボックスを閉じてしまってかまいません。
+「Next」ボタンをクリックすると、拡張機能が読み込まれます。「Output」と「Errors」というタブがあり。ここには拡張機能が出力するログが表示されます。OgaCopy の場合は、Outputタブに、"OgaCopy v1.1 Load OK!"と表示されているはずです。右下の「Close」ボタンをクリックして、このダイアログボックスを閉じてしまってかまいません。
 すべてうまくいっていれば、拡張機能一覧テーブルにOgaCopy v1.1 が追加され、Loaded列にチェックボックスがついているはずです。
 
-OgaCopyは、コンテキストメニューに項目が追加されるタイプの拡張機能です。
-Proxyの履歴などで日本語を含むレスポンスを探してメッセージエディターで開いてください。
-コンテキストメニューを表示させると、OgaCopyの項目が３つ追加されています。
-今まで通りテキストを選択して「Ctrl+C」でコピーした場合と、OgaCopyでコピーした場合と、ペーストした結果を見比べてみてください。
+OgaCopyは、コンテキストメニューに項目が追加されるタイプの拡張機能です。Proxyの履歴などで日本語を含むレスポンスを探してメッセージエディターで開いてください。コンテキストメニューを表示させると、OgaCopyの項目が３つ追加されています。今まで通りテキストを選択して「Ctrl+C」でコピーした場合と、OgaCopyでコピーした場合と、ペーストした結果を見比べてみてください。
 
 #### 拡張機能の管理
 
