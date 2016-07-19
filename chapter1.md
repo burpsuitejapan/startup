@@ -10,7 +10,7 @@ Burp Suite　 [http://portswigger.net/](http://portswigger.net/)
 
 ## 1.2 特徴
 
-Burp Suiteは、プロフェッショナル版（Professional Edition）とフリー版（Free Edition）の2種類あります。最新バージョンは、フリー版v1.7.01betaで、プロフェッショナル版v1.7.02betaです（2016年5月10日時点）。
+Burp Suiteは、プロフェッショナル版（Professional Edition）とフリー版（Free Edition）の2種類あります。最新バージョンは、フリー版v1.7.03で、プロフェッショナル版v1.7.02betaです（2016年7月19日時点）。
 
 Burp Suiteは以下の機能で構成されており、プロフェッショナル版でしか利用できない機能もあります。
 
