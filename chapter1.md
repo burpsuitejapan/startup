@@ -2,7 +2,7 @@
 
 ## 1.1 Burp Suiteとは
 
-Burp SuiteはPortSwigger社がJavaで作成した、ローカルProxyを中心に構成されたWebアプリケーションのセキュリティ診断に特化したツールです。ローカルProxyは、会社や学校などで使用されているProxyとは異なり、Webアプリケーションのセキュリティ診断やデバックなどに活用されます。同様のツールとしてBurp Suite以外にもOWASP ZAPやFiddlerなどが存在しています。
+Burp SuiteはPortSwigger社がJavaで作成した、ローカルProxyを中心に構成されたWebアプリケーションのセキュリティ診断に特化したツールです。ローカルProxyは、会社や学校などで使用されているProxyとは異なり、Webアプリケーションのセキュリティ診断やデバッグなどに活用されます。同様のツールとしてBurp Suite以外にもOWASP ZAPやFiddlerなどが存在しています。
 
 Burp Suite　 [http://portswigger.net/](http://portswigger.net/)
 
