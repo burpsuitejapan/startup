@@ -75,7 +75,7 @@ Filterをクリックし条件を設定すると、それに応じて表示す�
 
 [Intercept is On]/[Intercept is Off]でインターセプトをするかどうかを設定します。ステータスを[Intercept is Off]に変更するとインターセプトされているすべてのリクエストがサーバに送信されます。
 
-[Actions]では、特定の条件のリクエストをインターセプトしない設定やレスポンスを設定するなど、インターセプトしたリクエストに対するアクションが設定できます。
+[Actions]では、特定の条件のリクエストをインターセプトしない設定やレスポンスを設定するなど、インターセプトしたリクエストに対するアクションが設定できます。該当リクエストのレスポンスをインターセプトしたい場合、[Do intercept]-[Response to this request]をクリックし、インターセプトしているリクエストをフォワードすると該当するレスポンスをインターセプトすることができます。
 
 ![インターセプトしたリクエストに対するAction](./img/intercept_action.png "インターセプトしたリクエストに対するAction")
 
@@ -179,9 +179,9 @@ Scopeの追加は3つ方法があります。
 
 | パターン                |  設定内容  |
 |:---------------------|:-----------------------------------------------------------|
-| 診断対象がwww.example.comでURLやプロトコルが事前に分からない場合 | [Include in scope]で[Host or IP range]に^www\.example\.com$と設定します。[Port]や[File]などの他の項目を設定しない場合、www.example.comに対するリクエストはすべて許可されます。 |
-| 診断対象が192.0.2.1で/sample/以下のパスに対して実施する場合 | [Include in scope]で[Host or IP range]に192\.0\.2\.1$を、[File]に/sample/を設定します。http、httpsの/sample/配下にあるコンテンツすべてがスコープ内になります。 |
-| 診断対象がwww.example.comで/sample/以下のパスで/sample/exclude/を除いて実施する場合 | [Include in scope]で[Host or IP range]に^www.example\.com$を、[File]に/sample/を設定します。[Exclude in scope]で[File]に^/sample/exclue/を設定します。 |
+| 診断対象がwww.example.comでURLやプロトコルが事前に分からない場合 | [Include in scope]で[Host or IP range]に\^www\\.example\\.com$と設定します。[Port]や[File]などの他の項目を設定しない場合、www.example.comに対するリクエストはすべて許可されます。 |
+| 診断対象が192.0.2.1で/sample/以下のパスに対して実施する場合 | [Include in scope]で[Host or IP range]に\^192\\.0\\.2\\.1$を、[File]に\^/sample/\.\*を設定します。http、httpsの/sample/配下にあるコンテンツすべてがスコープ内になります。 |
+| 診断対象がwww.example.comで/sample/以下のパスで/sample/exclude/を除いて実施する場合 | [Include in scope]で[Host or IP range]に\^www\\.example\\.com$を、[File]に\^/sample/\.\*を設定します。[Exclude in scope]で[File]に\^/sample/exclue/\.\* を設定します。 |
 
 #### 4.3.2.1 Scopeからの削除
 1. 削除したい条件を選択します。
@@ -327,7 +327,7 @@ Intruderで送信する元となるリクエストを[Proxy]-[HTTP History]タ�
 
 ![診断パターンの設定](./img/payload_options_simple_list.png "診断パターンの設定")
 
-右上にある[Start attack]をクリックします。
+右上にある[Start attack]をクリックします。その際に、いくつかの機能が制限されている旨の警告が表示されますが、OKをクリックすると診断が開始されます。
 
 ![Start attack](./img/start_attack.png "Start attack")
 
